@@ -1,0 +1,68 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+.post {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.post h2 {
+    color: #333;
+    margin-top: 0;
+}
+
+.post p {
+    color: #777;
+    line-height: 1.5;
+}
+
+.post .author {
+    color: #999;
+    font-style: italic;
+}
+
+.post .date {
+    color: #999;
+    font-size: 12px;
+}
+
+
+details>summary {
+    list-style: none;
+}
+
+details>summary::-webkit-details-marker {
+    display: none;
+}
+
+.first:not(:first-child) {
+    margin-left: 5rem;
+    margin-top: 1rem;
+}
+
+.first::before {
+    content: "";
+    background-color: rgb(8, 5, 5);
+    position: absolute;
+    min-height: 100%;
+    width: 1px;
+    left: -10px;
+}

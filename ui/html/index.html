@@ -1,0 +1,47 @@
+{{ template "header" .}}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .pressed {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    {{ define "inc" }}{{ len (printf "%*s " . "") }}{{ end -}}
+    {{range $index, $value := .Categories}}
+    <button type="button" id='cat{{template "inc" $index}}' onclick="filter(this)" name="filter"
+        value='{{template "inc" $index}}'>
+        {{template "inc" $index}}{{$value}}
+    </button>
+    {{end}}
+    <br>
+    {{if .IsEmpty}}
+    <label>Your search returned no results...</label>
+    {{end}}
+    {{ range .Content}}
+    <a href="/posts/{{.ID}}">{{.Title}} - author: {{.Creator}} - comments: {{.CmntCount}}</a><label>L - {{.Likes.Count}}
+        D - {{.Dislikes.Count}} {{range .Categories}}{{.}}{{end}}</label>
+    <br>
+    <form action="/reaction" method="post">
+        <input type="hidden" name="object" value="post">
+        <input type="hidden" name="id" value="{{.ID}}">
+        <input type="submit" name="reaction" value="like">
+        <input type="submit" name="reaction" value="dislike">
+    </form>
+    {{ end }}
+
+    <script src="/ui/assets/js/indexfilter.js">
+
+    </script>
+</body>
+
+{{ template "footer" .}}

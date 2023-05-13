@@ -1,0 +1,43 @@
+{{ define "comment" }}
+<div class="first">
+    {{range .}}
+        <p>{{.Creator}} - {{.Content}}</p>
+        <form action="/reaction"  method="post">
+            <input type="hidden" name="object" value="comment">
+            <input type="hidden" name="id" value="{{.ID}}">
+            <input type="submit" name="reaction" value="like">
+            <input type="submit" name="reaction" value="dislike">
+        </form>
+        <details>
+            <summary>Likes - {{.Likes.Count}}</summary>
+            <ul>
+                {{range .Likes.Users}}
+                <li>{{.}}</li>
+                {{end}}
+            </ul>
+        </details>
+        <details>
+            <summary>Dislikes - {{.Dislikes.Count}}</summary>
+            <ul>
+                {{range .Dislikes.Users}}
+                <li>{{.}}</li>
+                {{end}}
+            </ul>
+        </details>
+        <details class="replyform">
+            <summary>reply</summary>
+            <form method="post">
+                <input type="hidden" name = "parent" value="{{.ID}}">
+                <input type="text" name="content" required>
+                <input type="submit" value="create">
+            </form>
+        </details>
+        <br>
+                {{with .Replies}}
+                    {{template "comment" .}}
+                {{end}}
+        {{end}}
+    </div>
+{{end}}
+
+{{ template "comment" .}}

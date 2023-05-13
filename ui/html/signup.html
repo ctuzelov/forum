@@ -1,0 +1,48 @@
+{{ template "header" .}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/assets/css/login.css">
+    <link rel="stylesheet" href="/ui/assets/css/footer.css">
+    <title>Forum</title>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Sign up</h1>
+        <form action="/signup" method="post">
+            {{with .ErrMsgs}}
+                {{with .email}}
+                    <label>{{.}}</label>
+                {{end}}
+            {{end}}
+        <input type="text" name="email" value="{{if .Content}}{{.Content.Email}}{{end}}" placeholder="Email">
+
+        {{with .ErrMsgs.name}}
+            <label>{{.}}</label>
+        {{end}}
+        <input type="text" name="name" value="{{if .Content}}{{.Content.Name}}{{end}}" placeholder="Name">
+        
+        {{with .ErrMsgs}}
+            {{with .password}}
+                <label>{{.}}</label>
+            {{end}}
+        {{end}}
+        <input type="password" name="password" placeholder="Password">
+        <input type="password" placeholder="Confirm the password">
+        <button type="submit"> <div class="sign">Sign Up</div> </button>
+
+        </form>
+        <div class="terms">
+            <input type="checkbox" id="checkbox">
+            <label for="checkbox"> I agree to these <a href="#">Terms & Conditions</a></label>
+            <div class="member">
+                Already a member? <a href="./signin"> Login Here </a>
+            </div>
+        </div>
+    </div>
+
+
+    {{ template "footer" .}}

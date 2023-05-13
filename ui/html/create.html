@@ -1,0 +1,21 @@
+{{ template "header" .}}
+
+    <div>create</div>
+    <form action="/posts/create" method="POST">
+        <input type="text" name="title">
+        <div>
+            <input type="checkbox" id="cat" name="cat" value="1"> General discussions
+            <input type="checkbox" id="cat" name="cat" value="2"> Technical support
+            <input type="checkbox" id="cat" name="cat" value="3"> Programming <br>
+            <input type="checkbox" id="cat" name="cat" value="4"> Networking and security
+            <input type="checkbox" id="cat" name="cat" value="5"> Career and education
+            <input type="checkbox" id="cat" name="cat" value="6"> Mobile and web development <br>
+            <input type="checkbox" id="cat" name="cat" value="7"> Operating systems and software
+            <input type="checkbox" id="cat" name="cat" value="8"> Gaming
+            <input type="checkbox" id="cat" name="cat" value="9"> Industry news and trends
+        </div>
+        <input type="text" name="content">
+        <input type="submit">
+    </form>
+
+{{ template "footer" .}}

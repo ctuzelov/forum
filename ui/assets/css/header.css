@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+*{
+  font-family: "Poppins";
+}
+
+body {
+  margin-top: 0px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  padding: 0;
+  font-family: "Poppins";
+}
+
+nav {
+  background-color: #333;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+}
+
+.nav-container {
+  margin-top: 0%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar a {
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 10px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-family: "Poppins";
+}
+
+.nav-container form button p{
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 10px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-family: "Poppins";
+  cursor: pointer;
+}
+.nav-container form button p:hover {
+  color: #ffcc00;
+}
+
+.hamburger {
+  display: none;
+  cursor: pointer;
+}
+.navbar button {
+  padding: 15px 25px;
+  border: 1px #333 solid;
+  background-color: #333;
+}
+
+.navbar a:hover {
+  color: #ffcc00;
+}
+
+
+.hamburger {
+  display: none;
+  cursor: pointer;
+}
+
+.hamburger .line {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  margin: 5px;
+  transition: all 0.3s ease;
+}
+
+@media only screen and (max-width: 768px) {
+  .navbar {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    background-color: #333;
+    transition: all 0.3s ease;
+  }
+
+  .navbar.show {
+    display: flex;
+  }
+
+  .navbar a {
+    margin: 10px 0;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
