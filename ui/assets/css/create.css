@@ -1,30 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-
-* {
+  
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins";
+    font-family: "Poppins";    
 }
 
-body {
-    background: #f4f4f4;;
+body{
+    background: #f4f4f4;
     margin: 0px !important;
     line-height: 1.5;
 }
 
 .wrapper {
-    max-width: 650px;
+    max-width: 800px;
     height: auto;
     padding: 2rem 1rem;
     margin: 50px auto;
     margin-top: 3%;
     margin-bottom: auto;
     background-color: #fff;
-    /* border-radius: 10px; */
-    text-align: center;
-    
+    text-align: center;    
     box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
 }
 
@@ -35,22 +33,21 @@ h1 {
     margin-bottom: 1.2rem;
 }
 
-form input {
+form input, form textarea {
     width: 100%;
     outline: none;
     border: 1px solid #fff;
     padding: 12px 20px;
     margin-bottom: 5px;
-    margin-top: 5px;
-    /* border-radius: 20px; */
+    margin-top: 5px;    
     background: #e4e4e4;
+    resize: none;
 }
 
-button {
+.createbutton{
     font-size: 1rem;
     margin-top: 1.8rem;
-    padding: 10px 0;
-    /* border-radius: 20px; */
+    padding: 10px 0;   
     outline: none;
     border: none;
     width: 70%;
@@ -58,28 +55,16 @@ button {
     background: #f0544f;
 }
 
-button:hover {
+.createbutton:hover {
     background: #f56c68;
 }
 
-.sign {
+.create {
     color: #ffffff;
 }
 
-/* this forces you to focus on the exact placeholder */
 input:focus {
     border: 1px solid rgb(192, 192, 192);
-}
-
-.member {
-    font-size: 0.8rem;
-    margin-top: 1.4rem;
-    color: #636366;
-}
-
-.member a {
-    color: rgb(17, 107, 143);
-    text-decoration: none;
 }
 
 .error{
@@ -87,8 +72,34 @@ input:focus {
     text-align: left;
     font-size: 12px;
 }
-form{
+.createform{
     width: 80%;
-    /* text-align: left; */
     margin-left: 10%;
 }
+
+.categories{
+    margin: 5px;
+    width: 100%;
+    display: inline-block;  
+}
+input[type="checkbox"]{
+    appearance: none;
+    -webkit-appearance: none;
+    display: none;
+    
+}
+.boxlabel {
+    margin: 10px;
+}
+
+input[type="checkbox"]:checked+label{
+    padding: 4px;
+    background-color: #f0544f;
+    color: white;
+  }
+
+  ::placeholder{
+    font-size: 20px;
+  } 
+
+/* example */

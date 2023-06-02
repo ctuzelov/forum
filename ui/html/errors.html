@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/assets/css/error.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="icon" href="/ui/assets/img/icon.png">
     <title>Forum</title>
 </head>
 <body>
-    {{.Status}}
-    {{.Text}}
-    <a href="/">go home</a>
+    <div class="image">
+        <img src="/ui/assets/img/robot.png"> 
+    </div>
+    <div class="error">
+        {{.Status}}
+        {{.Text}}
+        <p>Oops, something went wrong...</p>
+        <a href="/">Go home</a>
+    </div>
 </body>
 </html>

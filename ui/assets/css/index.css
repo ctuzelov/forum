@@ -1,59 +1,348 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 /* Reset default styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins";
+}
+
+body {
+  background: #dfe9f5;
+  margin: 0px !important;
+}
+
+/* Container styles */
+.container {
+  background: #dfe9f5;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Heading styles */
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Post styles */
+.post {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Post title styles */
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Post content styles */
+p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+/* Author styles */
+.author {
+  font-size: 14px;
+  color: black;
+  margin-bottom: 10px;
+}
+
+/* Date styles */
+.date {
+  font-size: 14px;
+  color: #555;
+}
+
+
+.buttons {
+  border: none;
+  background-color: transparent;
+}
+
+.pressed {
+  background-color: rgb(52, 141, 86);
+}
+
+img {
+  height: 20px;
+  width: 20px;
+}
+
+.dislikeimage {
+  transform: scale(-1, -1);
+}
+
+.author {
+  margin-top: 10px;
+  margin-left: 10px;
+  display: flex;
+}
+
+.author>.user {
+  margin-right: 5px;
+}
+
+/* .author>.info {
+  margin-right: 70%;
+} */
+.info{
+  width: 80%;
+}
+.categories {
+  margin-left: 10px;
+}
+
+.category {
+  padding: 3px;
+  border: 1px solid #ddd;
+  border-radius: 4%;
+  background-color: rgb(143, 143, 143);
+  color: white;
+}
+
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* img{width: 100%} */
+
+body {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.5;
+  background-color: #f4f4f4;
+}
+
+/****************/
+.main-container {
+  width: 90vw;
+  margin: 0 auto;
+  padding: 40px 0;
+}
+
+.main-container>h2 {
+  text-align: center;
+  padding: 10px 0;
+  font-size: 32px;
+}
+
+.main-container>p {
+  font-weight: 300;
+  padding: 10px 0;
+  opacity: 0.7;
+  text-align: center;
+}
+
+.category-head {
+  margin: 30px 0;
+}
+
+.category-head ul {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.category-title {
+  flex: 0 0 calc(16.6667% - 10px);
+  display: flex;
+  justify-content: center;
+  background: #a8a8a8;
+  padding: 15px;
+  color: #fff;
+  margin: 5px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.category-title:hover {
+  opacity: 0.7;
+}
+
+.category-title li {
+  padding: 0 10px;
+}
+
+.category-title span {
+  color: #222;
+}
+
+/** single post **/
+.posts-main-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 40px;
+  justify-items: center;
+}
+
+.posts-main-container>div {
+  width: 700px;
+  box-shadow: 0px 8px 22px -12px rgba(0, 0, 0, 0.64);
+}
+
+.post-img {
+  height: 30px;
+  width: 30px;
+  position: relative;
+  margin-left: 5px;
+}
+
+.category-name {
+  position: absolute;
+  margin-top: 20px;
+  margin-left: 20px;
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 2px;
+  padding: 10px;
+
+  width: 100px;
+
+  /* Эти опции - необходимые условия */
+  overflow: hidden;
+  white-space: nowrap;
+
+  /* Добавляем троеточия в конце предложения, если текст
+  не помещается в блок */
+  text-overflow: ellipsis;
+}
+
+div.paragragh {
+  border: 1px solid #245488;
+  padding: 5px;
+
+  width: 100%;
+
+  /* Эти опции - необходимые условия */
+  overflow: hidden;
+  white-space: nowrap;
+
+  /* Добавляем троеточия в конце предложения, если текст
+  не помещается в блок */
+  text-overflow: ellipsis;
+}
+
+.sports .category-name {
+  background: #a1e44d;
+}
+
+.post-content-top {
+  color: black;
+  opacity: 0.8;
+  margin: 10px;
+}
+
+
+.post-content-top .fa-comment,
+.post-content-top .fa-calendar {
+  padding-right: 5px;
+}
+
+.post-content h2 {
+  font-size: 22px;
+  padding: 12px 0;
+  font-weight: 400;
+}
+
+.post-content p {
+  opacity: 0.7;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.read-btn {
+  border: none;
+  padding: 8px 15px;
+  display: block;
+  margin: 5px auto;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  cursor: pointer;
+  border: 1px solid #292929;
+  background: transparent;
+  margin-bottom: 40px;
+}
+
+.read-btn:hover {
+  background: #f6f6f6;
+}
+
+.reactions {
+  margin: 10px
+}
+
+h2, p, label{
+  overflow-wrap: break-word;
+}
+
+
+/***************/
+@media(max-width: 2350px) {
+  .posts-main-container {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  /* Container styles */
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+
+  .posts-main-container>div {
+    width: 700px;
   }
-  
-  /* Heading styles */
-  h1 {
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
+}
+
+@media(max-width: 1560px) {
+  .posts-main-container {
+    grid-template-columns: 1fr;
   }
-  
-  /* Post styles */
-  .post {
-    margin-bottom: 30px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+ 
+  .posts-main-container>div {
+    width: 700px;
   }
-  
-  /* Post title styles */
-  h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
+}
+
+@media(max-width: 1320px) {
+  .posts-main-container {
+    grid-template-columns: 1fr;
   }
-  
-  /* Post content styles */
-  p {
-    font-size: 16px;
-    line-height: 1.5;
-    margin-bottom: 10px;
+ 
+  .posts-main-container>div {
+    width: 550px;
   }
-  
-  /* Author styles */
-  .author {
-    font-size: 14px;
-    font-style: italic;
-    color: #555;
-    margin-bottom: 5px;
+}
+@media(max-width: 600px) {
+  .posts-main-container {
+    grid-template-columns: 1fr;
   }
-  
-  /* Date styles */
-  .date {
-    font-size: 14px;
-    color: #555;
+ 
+  .posts-main-container>div {
+    width: 350px;
   }
-  
+}
+
+
+/***********/
+
+.active,
+.category {
+  background: #f0544f;
+}

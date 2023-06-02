@@ -19,7 +19,6 @@ type Comments interface {
 	UpdateReaction(comID, userID int, reaction string) error
 	LikesByCommentId(comID int) ([]string, error)
 	DislikesByCommentId(comID int) ([]string, error)
-	CountAllComments() (int, error)
 }
 
 type CommentRepo struct {
@@ -151,6 +150,9 @@ func (r *CommentRepo) LikesByCommentId(comID int) ([]string, error) {
 	WHERE reactions.comment_id=? AND reactions.type="like"`
 	rows, err := r.Query(query, comID)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, models.ErrNoRecord
+		}
 		return nil, err
 	}
 	likes := []string{}
@@ -172,6 +174,9 @@ func (r *CommentRepo) DislikesByCommentId(comID int) ([]string, error) {
 	WHERE reactions.comment_id=? AND reactions.type="dislike"`
 	rows, err := r.Query(query, comID)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, models.ErrNoRecord
+		}
 		return nil, err
 	}
 	dislikes := []string{}
@@ -185,14 +190,4 @@ func (r *CommentRepo) DislikesByCommentId(comID int) ([]string, error) {
 		dislikes = append(dislikes, username)
 	}
 	return dislikes, err
-}
-
-func (r *CommentRepo) CountAllComments() (int, error) {
-	var count int
-	query := `SELECT COUNT(*) FROM comments`
-	err := r.QueryRow(query).Scan(&count)
-	if err != nil {
-		return 0, err
-	}
-	return count, nil
 }

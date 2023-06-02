@@ -3,11 +3,12 @@ var currParams = new URLSearchParams(currUrl.search);
 for (let currParam of currParams) {
     let id = currParam[1];
     var element = document.getElementById("cat" + id);
-    element.classList.add("pressed")
+    element.classList.add("active")
 }
 function filter(button) {
     var form = document.createElement('form');
     var id = button.value;
+    console.log(button)
     var url = new URL(window.location)
     var params = new URLSearchParams(url.search);
     var flag = false

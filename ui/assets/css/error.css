@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+body {
+    font-family: "Poppins";
+    text-align: center;
+    font-size: 25px;
+}
+
+.error {
+    display: inline-block;
+    margin-top: 0;
+}
+
+.image {
+    margin-top: 5%;
+    margin-bottom: -25px;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+a {
+    border: 5px solid #f0544f;
+    background-color: #f0544f;
+    color: white;
+}

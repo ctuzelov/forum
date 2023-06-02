@@ -10,8 +10,8 @@ import (
 func (h *Handler) signup(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		// data := r.Context().Value(ctxKey).(*Data)
-		h.templaterender(w, http.StatusOK, "signup.html", nil)
+		data := r.Context().Value(ctxKey).(*Data)
+		h.templaterender(w, http.StatusOK, "signup.html", data)
 	case http.MethodPost:
 		data := r.Context().Value(ctxKey).(*Data)
 		err := r.ParseForm()
@@ -27,8 +27,7 @@ func (h *Handler) signup(w http.ResponseWriter, r *http.Request) {
 		}
 		data.Content = form
 		if form.Email == "" || form.Name == "" || form.Password == "" || form.ConPassword == "" {
-			data.ErrMsgs = validator.GetErrMsgs(form)
-			h.templaterender(w, http.StatusBadRequest, "signup.html", data)
+			h.errorpage(w, http.StatusBadRequest, nil)
 			return
 		}
 		data.ErrMsgs = validator.GetErrMsgs(form)
@@ -50,15 +49,15 @@ func (h *Handler) signup(w http.ResponseWriter, r *http.Request) {
 			h.templaterender(w, http.StatusConflict, "signup.html", data)
 			return
 		}
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		http.Redirect(w, r, "/signin", http.StatusSeeOther)
 	}
 }
 
 func (h *Handler) signin(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		// data := r.Context().Value(ctxKey).(*Data)
-		h.templaterender(w, http.StatusOK, "signin.html", nil)
+		data := r.Context().Value(ctxKey).(*Data)
+		h.templaterender(w, http.StatusOK, "signin.html", data)
 	case http.MethodPost:
 		data := r.Context().Value(ctxKey).(*Data)
 		err := r.ParseForm()

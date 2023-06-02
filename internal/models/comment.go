@@ -16,4 +16,5 @@ type Comment struct {
 		Count int
 		Users []string
 	}
+	UserReaction string
 }

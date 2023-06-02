@@ -1,12 +1,11 @@
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
 }
 
 .container {
-    max-width: 800px;
+    max-width: 60%;
     margin: 0 auto;
     padding: 20px;
 }
@@ -15,7 +14,9 @@ h1 {
     color: #333;
     text-align: center;
 }
-
+h2{
+    margin: 0;
+}
 .post {
     background-color: #fff;
     border-radius: 4px;
@@ -29,14 +30,17 @@ h1 {
     margin-top: 0;
 }
 
-.post p {
+.content {
+    width: 100%;
     color: #777;
     line-height: 1.5;
+    margin: 10px 0 10px 0;
+
 }
 
-.post .author {
-    color: #999;
-    font-style: italic;
+.post .authorname {
+    color: black;
+    font-size: 16px;
 }
 
 .post .date {
@@ -47,6 +51,7 @@ h1 {
 
 details>summary {
     list-style: none;
+    cursor: pointer;
 }
 
 details>summary::-webkit-details-marker {
@@ -54,15 +59,106 @@ details>summary::-webkit-details-marker {
 }
 
 .first:not(:first-child) {
-    margin-left: 5rem;
+    margin-left: 10px;
     margin-top: 1rem;
 }
 
-.first::before {
+.first:not(:first-child):before {
     content: "";
     background-color: rgb(8, 5, 5);
     position: absolute;
     min-height: 100%;
     width: 1px;
     left: -10px;
+}
+.reactions > form{
+    display: flex;
+    margin-bottom: 15px;
+}
+.first form{
+    display: flex;
+
+}
+.buttons{
+    margin-right: 5px;
+    border: none;
+    background-color: transparent;
+    height: 20px;
+    width: 20px;
+}
+
+.reactcount{
+    height: 25px;
+    margin: 0px 10px 0px 3px;
+}
+.user{
+    height: 40px;
+    width: 40px;
+}
+.author, .commauthor{
+    display: flex;
+    margin-bottom: 5px;
+}
+p{
+    margin: 0 0 0 5px;
+}
+.info{
+    display: grid;
+}
+.newcomment{
+    margin-bottom: 20px;
+    width: 90%;
+    outline: 0;
+    border: 0;
+    border-bottom: 2px solid rgb(105, 105, 105);
+    background: transparent;
+}
+.reply{
+    outline: 0;
+    border: 0;
+    border-bottom: 1px solid rgb(105, 105, 105);
+    background: transparent;
+}
+.comm{
+    margin-bottom: 40px;
+}
+.createbutton{
+    border: 0;
+    background: transparent;
+}
+.pen{
+    margin-bottom: -5px;
+}
+
+.first{
+    border-left: 1px solid rgb(105, 105, 105, 0.2);
+    padding-left: 10px;   
+}
+
+.categories{
+    display:flex;
+}
+
+.categories > p{
+    font-size: 13px;
+    padding: 2px;
+    background-color: #f0544f;
+    color: white;
+}
+
+#replybutton > img{
+    padding-right: 2px;
+}
+
+#replybutton{
+    display: flex;
+}
+
+
+.commauthor > p {
+    width: 95%;
+}
+
+h2, p, label{
+    overflow-wrap: break-word;
 }

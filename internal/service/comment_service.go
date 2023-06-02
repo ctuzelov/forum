@@ -2,7 +2,6 @@ package service
 
 import (
 	"errors"
-	"fmt"
 
 	"forum/internal/models"
 	"forum/internal/repository"
@@ -10,7 +9,7 @@ import (
 
 type Comments interface {
 	Create(c *models.Comment) error
-	Fetch(postID int) ([]*models.Comment, error)
+	Fetch(postID, userID int) ([]*models.Comment, error)
 	Count(postID int) (int, error)
 	GetByID(comID int) (*models.Comment, error)
 	React(comID, userID int, received string) error
@@ -21,13 +20,14 @@ type CommentService struct {
 }
 
 func (s *CommentService) Create(c *models.Comment) error {
-	count, err := s.repo.CountAllComments()
-	if err != nil {
-		return err
-	}
-	if c.ParentID > count {
-		fmt.Println(c.ParentID, count)
-		return models.ErrInvalidParent
+	if !(c.ParentID == 0) {
+		_, err := s.repo.CommentById(c.ParentID)
+		if err != nil {
+			if errors.Is(err, models.ErrNoRecord) {
+				return models.ErrInvalidParent
+			}
+			return err
+		}
 	}
 	return s.repo.InsertComment(c)
 }
@@ -36,27 +36,27 @@ func (s *CommentService) GetByID(comID int) (*models.Comment, error) {
 	return s.repo.CommentById(comID)
 }
 
-func (s *CommentService) Fetch(postID int) ([]*models.Comment, error) {
+func (s *CommentService) Fetch(postID, userID int) ([]*models.Comment, error) {
 	comments, err := s.repo.CommentsByPostId(postID)
 	if err != nil {
 		return comments, err
 	}
-	err = s.GetReplies(comments)
+	err = s.GetReplies(comments, userID)
 	if err != nil {
 		return nil, err
 	}
-	return comments, err
+	return comments, nil
 }
 
-func (s *CommentService) GetReplies(comments []*models.Comment) (err error) {
+func (s *CommentService) GetReplies(comments []*models.Comment, userID int) (err error) {
 	for _, comment := range comments {
 		comment.Likes.Users, err = s.repo.LikesByCommentId(comment.ID)
-		if err != nil {
+		if err != nil && !errors.Is(err, models.ErrNoRecord) {
 			return err
 		}
 		comment.Likes.Count = len(comment.Likes.Users)
 		comment.Dislikes.Users, err = s.repo.DislikesByCommentId(comment.ID)
-		if err != nil {
+		if err != nil && !errors.Is(err, models.ErrNoRecord) {
 			return err
 		}
 		comment.Dislikes.Count = len(comment.Dislikes.Users)
@@ -64,11 +64,13 @@ func (s *CommentService) GetReplies(comments []*models.Comment) (err error) {
 		if err != nil && !errors.Is(err, models.ErrNoRecord) {
 			return err
 		}
-		if !errors.Is(err, models.ErrNoRecord) {
-			err = s.GetReplies(comment.Replies)
-			if err != nil && !errors.Is(err, models.ErrNoRecord) {
-				return err
-			}
+		comment.UserReaction, err = s.repo.ReactionByUserId(comment.ID, userID)
+		if err != nil && !errors.Is(err, models.ErrNoRecord) {
+			return err
+		}
+		err = s.GetReplies(comment.Replies, userID)
+		if err != nil && !errors.Is(err, models.ErrNoRecord) {
+			return err
 		}
 	}
 	return nil
@@ -79,6 +81,13 @@ func (s *CommentService) Count(postID int) (int, error) {
 }
 
 func (s *CommentService) React(comID, userID int, received string) error {
+	_, err := s.repo.CommentById(comID)
+	if err != nil {
+		if errors.Is(err, models.ErrNoRecord) {
+			return models.ErrInvalidObjectId
+		}
+		return err
+	}
 	reaction, err := s.repo.ReactionByUserId(comID, userID)
 	if err != nil && !errors.Is(err, models.ErrNoRecord) {
 		return err

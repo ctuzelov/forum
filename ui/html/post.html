@@ -1,72 +1,103 @@
-{{ template "header" .}}
+<!DOCTYPE html>
+<html lang="en">
 
-<link rel="stylesheet" href="/ui/assets/css/post.css">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/assets/css/header.css">
+    <link rel="stylesheet" href="/ui/assets/css/footer.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="icon" href="/ui/assets/img/icon.png">
+    <title>Forum</title>
+    <style>
+        img {
+            height: 20px;
+            width: 20px;
+        }
+
+        .dislikeimage {
+            transform: scale(-1, -1);
+        }
+    </style>
+</head>
+
+<body>
+
+    {{ template "header" .}}
+
+    <link rel="stylesheet" href="/ui/assets/css/post.css">
 
     <div class="container">
-        {{with .Content}}
-        <div class="post"></div>
+        <div class="post">
+
+            {{with .Content}}
+
+            <div class="author">
+                <img class="user" src="/ui/assets/img/user.png">
+                <div class="info">
+                    <p class="authorname">{{.Creator}}</p>
+                    <p class="date">{{.CreatedAt}}</p>
+                </div>
+            </div>
             <h2>{{.Title}}</h2>
 
-            <p>{{.Content}}</p>
-            <div class="author">author - {{.Creator}}</div>
-            <div class="date">Date: May 1, 2023</div>
-
-            <div class="like">L - {{.Likes.Count}} </div>
-            <div class="dislike">D - {{.Dislikes.Count}}</div>
-            <label>{{range .Categories}}
-                {{.}}
+            <div class="categories">
+                {{range .Categories}}
+                <p>{{.}}</p>
                 {{end}}
-            </label>
-            <form action="/reaction" method="post">
-                <input type="hidden" name="object" value="post">
-                <input type="hidden" name="id" value="{{.ID}}">
-                <input type="submit" name="reaction" value="like">
-                <input type="submit" name="reaction" value="dislike">
+            </div>
+            <p class="content">{{.Content}}</p>
+            <div class="reactions">
+                <form action="/reaction" method="post">
+                    <input type="hidden" name="object" value="post">
+                    <input type="hidden" name="id" value="{{.ID}}">
+                    <button class="buttons" type="submit" name="reaction" value="like">
+                        <img class="likeimage"
+                            src="/ui/assets/img/{{if eq .UserReaction `like`}}likepressed.png{{else}}like.png{{end}}"></button>
+                    <details>
+                        <summary class="reactcount">{{.Likes.Count}}</summary>
+                        {{range .Likes.Users}}
+                        {{.}}
+                        {{end}}
+                    </details>
+                    <button class="buttons" type="submit" name="reaction" value="dislike">
+                        <img class="dislikeimage"
+                            src="/ui/assets/img/{{if eq .UserReaction `dislike`}}likepressed.png{{else}}like.png{{end}}"></button>
+                    <details>
+                        <summary class="reactcount">{{.Dislikes.Count}}</summary>
+
+                        {{range .Dislikes.Users}}
+                        {{.}}<br>
+                        {{end}}
+
+                    </details>
+                    <img src="/ui/assets/img/comment.png" alt="" class="commentimage">
+                    <summary class="reactcount">{{.CmntCount}}</summary>
+
+                </form>
+            </div>
+
+            Comments
+            <form class="comform" method="post">
+                <img class="pen" src="/ui/assets/img/pen.png">
+                <input type="text" class="newcomment" name="content" placeholder="write a comment..." required>
+                <button type="submit" class="createbutton">
+                    <img src="/ui/assets/img/send.png"></button>
             </form>
+
             {{with .Comments}}
             <div>{{template "comment" .}}</div>
             {{end}}
             {{end}}
             {{if .IsAuthorized}}
-            <form method="post">
-                <!-- <input type="hidden" name = "parent" value="" > -->
-                <input type="text" name="content">
-                <input type="submit" value="create">
-            </form>
             {{end}}
         </div>
     </div>
-    {{with .Content}}
-    <details>
-        <summary>Likes - {{.Likes.Count}}</summary>
-        <ul>
-            {{range .Likes.Users}}
-            <li>{{.}}</li>
-            {{end}}
-        </ul>
-    </details>
-    <details>
-        <summary>Dislikes - {{.Dislikes.Count}}</summary>
-        <ul>
-            {{range .Dislikes.Users}}
-            <li>{{.}}</li>
-            {{end}}
-        </ul>
-    </details>
-    <label>{{.CmntCount}} - comments</label>
-    <details class="replyform">
-        <summary>comment</summary>
-        <form method="post">
-            <!-- <input type="hidden" name = "parent" value="" > -->
-            <input type="text" name="content" required>
-            <input type="submit" value="create">
-        </form>
-    </details>
- 
-{{end}}
-
     <script>
-        var IsAuthorized = `{{.IsAuthorized}}`;
+        var IsAuthorized = "{{.IsAuthorized}}";
         if (!(/true/).test(IsAuthorized)) {
             var elements = document.getElementsByClassName("replyform");
             for (var i = 0; i < elements.length; i++) {
@@ -74,5 +105,5 @@
             }
         }
     </script>
-    
     {{ template "footer" .}}
+</body>

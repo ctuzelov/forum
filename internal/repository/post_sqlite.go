@@ -3,7 +3,6 @@ package repository
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 
 	"forum/internal/models"
 )
@@ -32,8 +31,8 @@ type Posts interface {
 
 func (r *PostRepo) InsertPost(p *models.Post) (int, error) {
 	query := `INSERT INTO posts
-	VALUES(NULL, ?, ?, ?)`
-	res, err := r.Exec(query, p.UserID, p.Title, p.Content)
+	VALUES(NULL, ?, ?, ?, ?)`
+	res, err := r.Exec(query, p.UserID, p.Title, p.Content, p.CreatedAt)
 	if err != nil {
 		return 0, err
 	}
@@ -47,7 +46,7 @@ func (r *PostRepo) InsertPost(p *models.Post) (int, error) {
 func (r *PostRepo) PostById(id int) (*models.Post, error) {
 	query := `SELECT *, (SELECT name FROM users WHERE users.id = posts.user_id) FROM posts WHERE id = ?`
 	p := &models.Post{}
-	err := r.QueryRow(query, id).Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.Creator)
+	err := r.QueryRow(query, id).Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.CreatedAt, &p.Creator)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, models.ErrNoRecord
@@ -93,7 +92,7 @@ func (r *PostRepo) FetchPosts() ([]*models.Post, error) {
 	defer rows.Close()
 	for rows.Next() {
 		p := &models.Post{}
-		err := rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.Creator)
+		err := rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.CreatedAt, &p.Creator)
 		if err != nil {
 			return nil, err
 		}
@@ -105,7 +104,6 @@ func (r *PostRepo) FetchPosts() ([]*models.Post, error) {
 func (r *PostRepo) InsertCategory(postID int, catID []int) error {
 	query := `INSERT INTO post_cat (post_id, cat_id) VALUES(?, ?)`
 	for _, i := range catID {
-		fmt.Println(postID)
 		_, err := r.Exec(query, postID, i)
 		if err != nil {
 			return err
@@ -200,7 +198,7 @@ func (r *PostRepo) DislikesByPostId(postID int) ([]string, error) {
 
 func (r *PostRepo) Filter(catID []int) ([]*models.Post, error) {
 	newpost := []*models.Post{}
-	query := `SELECT posts.id, posts.user_id, posts.title, posts.content, users.name  FROM posts 
+	query := `SELECT posts.id, posts.user_id, posts.title, posts.content, posts.date, users.name  FROM posts 
 	JOIN post_cat ON posts.id=post_cat.post_id
 	JOIN users ON users.id=posts.user_id
 	WHERE post_cat.cat_id=?;`
@@ -212,7 +210,7 @@ func (r *PostRepo) Filter(catID []int) ([]*models.Post, error) {
 		defer rows.Close()
 		for rows.Next() {
 			p := &models.Post{}
-			err := rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.Creator)
+			err := rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.CreatedAt, &p.Creator)
 			if err != nil {
 				return nil, err
 			}
@@ -246,7 +244,7 @@ func (r *PostRepo) PostsByUserId(userID int) ([]*models.Post, error) {
 	posts := []*models.Post{}
 	for rows.Next() {
 		p := &models.Post{}
-		err := rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.Creator)
+		err := rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.CreatedAt, &p.Creator)
 		if err != nil {
 			return nil, err
 		}
@@ -269,7 +267,7 @@ func (r *PostRepo) UserLikedPosts(userID int) ([]*models.Post, error) {
 	posts := []*models.Post{}
 	for rows.Next() {
 		p := &models.Post{}
-		err := rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.Creator)
+		err := rows.Scan(&p.ID, &p.UserID, &p.Title, &p.Content, &p.CreatedAt, &p.Creator)
 		if err != nil {
 			return nil, err
 		}

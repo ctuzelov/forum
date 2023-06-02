@@ -6,6 +6,7 @@ type Post struct {
 	Title     string
 	Content   string
 	Creator   string
+	CreatedAt string
 	CmntCount int
 	Likes     struct {
 		Count int
@@ -15,8 +16,8 @@ type Post struct {
 		Count int
 		Users []string
 	}
-	Comments   []*Comment
-	Categories []string
-	CatID      []int
+	Comments     []*Comment
+	Categories   []string
+	CatID        []int
+	UserReaction string
 }
-

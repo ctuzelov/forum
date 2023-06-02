@@ -1,38 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/ui/assets/css/header.css">
+    <link rel="stylesheet" href="/ui/assets/css/footer.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/ui/assets/css/index.css">
+    <link rel="icon" href="/ui/assets/img/icon.png">
+    <title>Forum</title>
 </head>
+
 <body>
-    {{if .IsAuthorized}}
-    <a href="/posts/create">create</a>
-    <form action="/logout" method="post">
-        <button>
-            Sign out
-        </button>
-    </form>
-    {{else}}
-        <a href="/signup">signup</a>
-        <a href="/signin">signin</a>
-    {{end}}
-    {{if .IsEmpty}}
-    <label>There's no posts...</label>
-    {{end}}
-    {{ range .Content}}
-    <a href="/posts/{{.ID}}">{{.Title}} - author: {{.Creator}} - comments: {{.CmntCount}}</a><label>L - {{.Likes.Count}}
-        D - {{.Dislikes.Count}} {{range .Categories}}{{.}}{{end}}</label>
-    <br>
-    <form action="/reaction" method="post">
-        <input type="hidden" name="object" value="post">
-        <input type="hidden" name="id" value="{{.ID}}">
-        <input type="submit" name="reaction" value="like">
-        <input type="submit" name="reaction" value="dislike">
-    </form>
-    {{ end }}
+    {{ template "header" .}}
+    {{ define "inc" }}{{ len (printf "%*s " . "") }}{{ end -}}
+    <main>
 
+        <div class="main-container">
+            {{if .IsEmpty}}
+            <h2>There's no posts...</h2>
+            {{end}}
+            <div class="posts-collect">
+                <div class="posts-main-container">
+                    {{ range .Content}}
+                    <div class="all sport">
+                        <div class="">
+                            <div class="author">
+                                <img class="user" src="/ui/assets/img/user.png">
+                                <div class="info">
+                                    <p class="authorname">{{.Creator}}</p>
+                                </div>
+                                <p class="date">{{.CreatedAt}}</p>
+                            </div>
+                            <div class="categories">
+                                {{range .Categories}}
+                                <label class="category">{{.}}</label>
+                                {{end}}
+                            </div>
+                        </div>
+
+                        <div class="post-content">
+                            <div class="post-content-top">
+                                <h2>{{.Title}}</h2>
+                                <div class="paragragh">{{.Content}}</div>
+                            </div>
+                            <div class="reactions">
+                                <form action="/reaction" method="post">
+                                    <input type="hidden" name="object" value="post">
+                                    <input type="hidden" name="id" value="{{.ID}}">
+                                    <button class="buttons" type="submit" name="reaction" value="like">
+                                        <img class="likeimage"
+                                            src="/ui/assets/img/{{if eq .UserReaction `like`}}likepressed.png{{else}}like.png{{end}}"></button>
+                                    <label> {{.Likes.Count}} </label>
+                                    <button class="buttons" type="submit" name="reaction" value="dislike">
+                                        <img class="dislikeimage"
+                                            src="/ui/assets/img/{{if eq .UserReaction `dislike`}}likepressed.png{{else}}like.png{{end}}">
+                                    </button>
+                                    <label> {{.Dislikes.Count}} </label>
+                                    <label> <img src="/ui/assets/img/comment.png" alt=""
+                                            class="commentimage">{{.CmntCount}}</label>
+                                </form>
+                            </div>
+                            <a href="/posts/{{.ID}}"><button type="button" class="read-btn">Read All</button></a>
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </main>
+    {{ template "footer" .}}
 </body>
-
-</html>

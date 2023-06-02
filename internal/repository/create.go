@@ -1,6 +1,8 @@
 package repository
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 func CreateTables(DB *sql.DB) error {
 	query := `CREATE TABLE IF NOT EXISTS users (
@@ -16,6 +18,7 @@ func CreateTables(DB *sql.DB) error {
 			user_id INTEGER NOT NULL,
 			title TEXT NOT NULL,
 			content TEXT NOT NULL,
+			date TEXT NOT NULL,
 			FOREIGN KEY (user_id) REFERENCES users(id)
 		);
 		CREATE TABLE IF NOT EXISTS comments (
@@ -39,14 +42,21 @@ func CreateTables(DB *sql.DB) error {
 		);
 		CREATE TABLE IF NOT EXISTS categories (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
-			category TEXT NOT NULL
+			category TEXT NOT NULL UNIQUE
 			);
 		CREATE TABLE IF NOT EXISTS post_cat (
 			cat_id INTEGER,
 			post_id INTEGER,
 			FOREIGN KEY (cat_id) REFERENCES categories(id),			
 			FOREIGN KEY (post_id) REFERENCES posts(id)			
-		);`
+		);
+		INSERT OR IGNORE INTO categories  (category) VALUES
+		("HTML/CSS"),
+		("Golang"),
+		("Rust"),
+		("JavaScript"),
+		("Other");
+		`
 	_, err := DB.Exec(query)
 	return err
 }

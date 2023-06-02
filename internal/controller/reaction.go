@@ -1,8 +1,11 @@
 package controller
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
+
+	"forum/internal/models"
 )
 
 func (h *Handler) reaction(w http.ResponseWriter, r *http.Request) {
@@ -18,7 +21,6 @@ func (h *Handler) reaction(w http.ResponseWriter, r *http.Request) {
 	object := r.PostForm.Get("object")
 	reaction := r.PostForm.Get("reaction")
 	userID := data.User.ID
-
 	id, err := strconv.Atoi(r.PostForm.Get("id"))
 	if err != nil || (reaction != "like" && reaction != "dislike") {
 		h.errorpage(w, http.StatusBadRequest, nil)
@@ -27,18 +29,19 @@ func (h *Handler) reaction(w http.ResponseWriter, r *http.Request) {
 	switch object {
 	case "comment":
 		err = h.Service.Comments.React(id, userID, reaction)
-		if err != nil {
-			h.errorpage(w, http.StatusInternalServerError, err)
-			return
-		}
 	case "post":
 		err = h.Service.Posts.React(id, userID, reaction)
-		if err != nil {
-			h.errorpage(w, http.StatusInternalServerError, err)
-			return
-		}
+
 	default:
 		h.errorpage(w, http.StatusBadRequest, nil)
+		return
+	}
+	if err != nil {
+		if errors.Is(err, models.ErrInvalidObjectId) {
+			h.errorpage(w, http.StatusBadRequest, nil)
+			return
+		}
+		h.errorpage(w, http.StatusInternalServerError, err)
 		return
 	}
 	http.Redirect(w, r, r.Header.Get("Referer"), http.StatusSeeOther)

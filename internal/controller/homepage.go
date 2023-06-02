@@ -32,13 +32,13 @@ func (h *Handler) homepage(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	if catID != nil {
-		data.Content, err = h.Service.Posts.GetFiltered(catID)
+		data.Content, err = h.Service.Posts.GetFiltered(catID, data.User.ID)
 		if err != nil {
 			h.errorpage(w, http.StatusInternalServerError, err)
 			return
 		}
 	} else {
-		data.Content, err = h.Service.Posts.GetAll()
+		data.Content, err = h.Service.Posts.GetAll(data.User.ID)
 		if err != nil {
 			h.errorpage(w, http.StatusInternalServerError, err)
 			return

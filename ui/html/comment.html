@@ -1,43 +1,55 @@
 {{ define "comment" }}
 <div class="first">
     {{range .}}
-        <p>{{.Creator}} - {{.Content}}</p>
-        <form action="/reaction"  method="post">
-            <input type="hidden" name="object" value="comment">
-            <input type="hidden" name="id" value="{{.ID}}">
-            <input type="submit" name="reaction" value="like">
-            <input type="submit" name="reaction" value="dislike">
-        </form>
-        <details>
-            <summary>Likes - {{.Likes.Count}}</summary>
-            <ul>
-                {{range .Likes.Users}}
-                <li>{{.}}</li>
-                {{end}}
-            </ul>
-        </details>
-        <details>
-            <summary>Dislikes - {{.Dislikes.Count}}</summary>
-            <ul>
-                {{range .Dislikes.Users}}
-                <li>{{.}}</li>
-                {{end}}
-            </ul>
-        </details>
+    <div class="comm">
+
+        <div class="commauthor">
+            <img src="/ui/assets/img/user.png">
+            <p>{{.Creator}}</p>
+            <form action="/reaction" method="post">
+                <input type="hidden" name="object" value="comment">
+                <input type="hidden" name="id" value="{{.ID}}">
+                <button class="buttons" type="submit" name="reaction" value="like">
+                    <img class="likeimage"
+                        src="/ui/assets/img/{{if eq .UserReaction `like`}}likepressed.png{{else}}like.png{{end}}"></button>
+                <details>
+                    <summary class="reactcount">{{.Likes.Count}}</summary>
+                    {{range .Likes.Users}}
+                    {{.}}
+                    {{end}}
+                </details>
+                <button class="buttons" type="submit" name="reaction" value="dislike">
+                    <img class="dislikeimage"
+                        src="/ui/assets/img/{{if eq .UserReaction `dislike`}}likepressed.png{{else}}like.png{{end}}"></button>
+                <details>
+                    <summary class="reactcount">{{.Dislikes.Count}}</summary>
+    
+                    {{range .Dislikes.Users}}
+                    {{.}}<br>
+                    {{end}}
+                </details>
+            </form>
+        </div>
+        <p class="content">{{.Content}}</p>
         <details class="replyform">
-            <summary>reply</summary>
+            <summary>
+                <div id="replybutton"><img src="/ui/assets/img/reply.png">reply</div>
+            </summary>
             <form method="post">
-                <input type="hidden" name = "parent" value="{{.ID}}">
-                <input type="text" name="content" required>
-                <input type="submit" value="create">
+                <input type="hidden" name="parent" value="{{.ID}}">
+                <input type="text" class="reply" name="content" placeholder="reply..." required>
+                <button type="submit" class="createbutton">
+                    <img src="/ui/assets/img/send.png"></button>
             </form>
         </details>
-        <br>
-                {{with .Replies}}
-                    {{template "comment" .}}
-                {{end}}
-        {{end}}
     </div>
+
+
+    {{with .Replies}}
+    {{template "comment" .}}
+    {{end}}
+    {{end}}
+</div>
 {{end}}
 
 {{ template "comment" .}}

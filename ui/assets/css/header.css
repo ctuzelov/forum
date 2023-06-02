@@ -77,7 +77,8 @@ nav {
   cursor: pointer;
 }
 .navbar button {
-  padding: 15px 25px;
+  padding-left: 25px;
+  padding-right: 25px;
   border: 1px #333 solid;
   background-color: #333;
 }
@@ -98,6 +99,19 @@ nav {
   background-color: #fff;
   margin: 5px;
   transition: all 0.3s ease;
+}
+
+.logoutname{
+  color: white;
+  text-transform: none;
+  font-weight: normal;
+  font-size: 15px;
+  text-align: center;
+  margin-top: -6px;
+}
+
+p.logoutname{
+  margin-bottom: 10px;
 }
 
 @media only screen and (max-width: 768px) {

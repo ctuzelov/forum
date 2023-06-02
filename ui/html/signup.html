@@ -1,48 +1,58 @@
-{{ template "header" .}}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/ui/assets/css/login.css">
     <link rel="stylesheet" href="/ui/assets/css/footer.css">
-    <title>Forum</title>
+    <link rel="stylesheet" href="/ui/assets/css/header.css">
+    <link rel="icon" href="/ui/assets/img/icon.png">
+    <title>Sign Up</title>
 </head>
+
 <body>
+    {{ template "header" .}}
     <div class="wrapper">
         <h1>Sign up</h1>
         <form action="/signup" method="post">
+            <input type="text" name="email" value="{{if .Content}}{{.Content.Email}}{{end}}" placeholder="Email" required>
             {{with .ErrMsgs}}
-                {{with .email}}
-                    <label>{{.}}</label>
-                {{end}}
+            {{with .email}}
+            <p class="error">{{.}}</p>
             {{end}}
-        <input type="text" name="email" value="{{if .Content}}{{.Content.Email}}{{end}}" placeholder="Email">
+            {{end}}
 
-        {{with .ErrMsgs.name}}
-            <label>{{.}}</label>
-        {{end}}
-        <input type="text" name="name" value="{{if .Content}}{{.Content.Name}}{{end}}" placeholder="Name">
-        
-        {{with .ErrMsgs}}
-            {{with .password}}
-                <label>{{.}}</label>
+            <input type="text" name="name" value="{{if .Content}}{{.Content.Name}}{{end}}" placeholder="Name" required>
+            {{with .ErrMsgs.name}}
+            <p class="error">{{.}}</p>
             {{end}}
-        {{end}}
-        <input type="password" name="password" placeholder="Password">
-        <input type="password" placeholder="Confirm the password">
-        <button type="submit"> <div class="sign">Sign Up</div> </button>
+
+            <input type="password" name="password" placeholder="Password" required>
+            {{with .ErrMsgs}}
+            {{with .pass}}
+            <p class="error">{{.}}</p>
+            {{end}}
+            {{end}}
+            <input type="password" name="conpassword" placeholder="Confirm the password" required>
+            {{with .ErrMsgs}}
+            {{with .conpass}}
+            <p class="error">{{.}}</p>
+            {{end}}
+            {{end}}
+            <button type="submit">
+                <div class="sign">Sign Up</div>
+            </button>
 
         </form>
-        <div class="terms">
-            <input type="checkbox" id="checkbox">
-            <label for="checkbox"> I agree to these <a href="#">Terms & Conditions</a></label>
+        <div class="terms">            
             <div class="member">
-                Already a member? <a href="./signin"> Login Here </a>
+                Already a member? <a href="/signin"> Login Here </a>
             </div>
         </div>
     </div>
-
-
     {{ template "footer" .}}
+</body>
+
+</html>

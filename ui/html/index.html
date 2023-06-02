@@ -1,5 +1,3 @@
-{{ template "header" .}}
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,41 +5,93 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .pressed {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" href="/ui/assets/css/header.css">
+    <link rel="stylesheet" href="/ui/assets/css/footer.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/ui/assets/css/index.css">
+    <link rel="icon" href="/ui/assets/img/icon.png">
+    <title>Forum</title>
 </head>
 
 <body>
+    {{ template "header" .}}
+
     {{ define "inc" }}{{ len (printf "%*s " . "") }}{{ end -}}
-    {{range $index, $value := .Categories}}
-    <button type="button" id='cat{{template "inc" $index}}' onclick="filter(this)" name="filter"
-        value='{{template "inc" $index}}'>
-        {{template "inc" $index}}{{$value}}
-    </button>
-    {{end}}
-    <br>
-    {{if .IsEmpty}}
-    <label>Your search returned no results...</label>
-    {{end}}
-    {{ range .Content}}
-    <a href="/posts/{{.ID}}">{{.Title}} - author: {{.Creator}} - comments: {{.CmntCount}}</a><label>L - {{.Likes.Count}}
-        D - {{.Dislikes.Count}} {{range .Categories}}{{.}}{{end}}</label>
-    <br>
-    <form action="/reaction" method="post">
-        <input type="hidden" name="object" value="post">
-        <input type="hidden" name="id" value="{{.ID}}">
-        <input type="submit" name="reaction" value="like">
-        <input type="submit" name="reaction" value="dislike">
-    </form>
-    {{ end }}
+    <main>
 
-    <script src="/ui/assets/js/indexfilter.js">
+        <div class="main-container">
+            <h2>Welcome To Forum</h2>
+            <div class="filter-container">
+                <div class="category-head">
+                    <ul>
+                        {{range $index, $value := .Categories}}
+                        <button class="category-title" onclick="filter(this)" id='cat{{template "inc" $index}}'
+                            value='{{template "inc" $index}}'>
+                            <li>{{$value}}</li>
+                            <span><i class="fas fa-border-{{$value}}"></i></span>
+                        </button>
+                        {{end}}
+                    </ul>
+                </div>
 
-    </script>
+                <div class="posts-collect">
+                    <div class="posts-main-container">
+                        {{ range .Content}}
+                        <!-- single post -->
+                        <div class="all sport">
+                            <div class="">
+                                <div class="author">
+                                    <img class="user" src="/ui/assets/img/user.png">
+                                    <div class="info">
+                                        <p class="authorname">{{.Creator}}</p>
+                                    </div>
+                                    <div class="date1">
+
+                                        <p class="date">{{.CreatedAt}}</p>
+                                    </div>
+                                    
+                                </div>
+                                <div class="categories">
+                                    {{range .Categories}}
+                                    <label class="category">{{.}}</label>
+                                    {{end}}
+                                </div>
+                            </div>
+
+                            <div class="post-content">
+                                <div class="post-content-top">
+                                    <h2>{{.Title}}</h2>
+                                    <div class="paragragh">{{.Content}}</div>
+                                </div>
+                                <div class="reactions">
+                                    <form action="/reaction" method="post">
+                                        <input type="hidden" name="object" value="post">
+                                        <input type="hidden" name="id" value="{{.ID}}">
+                                        <button class="buttons" type="submit" name="reaction" value="like">
+                                            <img class="likeimage"
+                                                src="/ui/assets/img/{{if eq .UserReaction `like`}}likepressed.png{{else}}like.png{{end}}"></button>
+                                        <label> {{.Likes.Count}} </label>
+                                        <button class="buttons" type="submit" name="reaction" value="dislike">
+                                            <img class="dislikeimage"
+                                                src="/ui/assets/img/{{if eq .UserReaction `dislike`}}likepressed.png{{else}}like.png{{end}}">
+                                        </button>
+                                        <label> {{.Dislikes.Count}} </label>
+                                        <label> <img src="/ui/assets/img/comment.png" alt=""
+                                                class="commentimage">{{.CmntCount}}</label>
+                                    </form>
+                                </div>
+                                <a href="/posts/{{.ID}}"><button type="button" class="read-btn">Read All</button></a>
+                            </div>
+                        </div>
+                        <!-- end of single post -->
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/ui/assets/js/indexfilter.js"></script>
+    </main>
+    {{ template "footer" .}}
 </body>
-
-{{ template "footer" .}}

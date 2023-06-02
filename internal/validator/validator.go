@@ -12,7 +12,7 @@ const (
 	MsgEmailExists        = "Email already exists"
 	MsgNameExists         = "Name already exists"
 	MsgInvalidEmail       = "Write correct email"
-	MsgInvalidName        = "Write correct name"
+	MsgInvalidName        = "Write correct name. Username should start with an alphabet [A-Za-z] and all other characters can be alphabets, numbers or an underscore so, [A-Za-z0-9_]. The username consists of 5 to 15 characters inclusive."
 	MsgInvalidPass        = "Password must contain letters, numbers and must be at least 6 characters."
 	MsgUserNotFound       = "User not found"
 	MsgPassDontMatch      = "The passwords don't match"
@@ -37,6 +37,10 @@ func GetErrMsgs(m models.User) map[string]string {
 }
 
 func isValidEmail(email string) bool {
+	rxEmail := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
+	if len(email) > 254 || !rxEmail.MatchString(email) {
+		return false
+	}
 	_, err := mail.ParseAddress(email)
 	return err == nil
 }
@@ -46,7 +50,7 @@ func isValidName(name string) bool {
 	if length < 5 || length > 15 {
 		return false
 	}
-	usernameConvention := "^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$"
+	usernameConvention := "^[A-Za-z][A-Za-z0-9_]{4,14}$"
 	re, _ := regexp.Compile(usernameConvention)
 	return re.MatchString(name)
 }
