@@ -23,8 +23,6 @@ Go to: http://localhost:8080
 Run the following command: "go run cmd/main.go" and click on the generated URL address to go to the web page
 
 ### Authors
-@aabdrakh
 @ctuzelov
-@nazerkegazizova
 
 
